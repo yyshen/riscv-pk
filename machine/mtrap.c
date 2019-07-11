@@ -178,6 +178,26 @@ send_ipi:
 
 void redirect_trap(uintptr_t epc, uintptr_t mstatus, uintptr_t badaddr)
 {
+  /* redirect to HS mode, based on OpenSBI */
+  if (supports_extension('H')) {
+    uintptr_t hstatus = read_csr(0xa00);
+    /* V = 1 */
+    if (mstatus & MSTATUS_MPV) {
+      hstatus &= ~HSTATUS_SP2P;
+      hstatus |= (mstatus & MSTATUS_SPP) ? HSTATUS_SP2P : 0;
+      hstatus &= ~HSTATUS_SP2V;
+      hstatus |= (hstatus & HSTATUS_SPV) ? HSTATUS_SP2V : 0;
+      hstatus &= ~HSTATUS_SPV;
+      hstatus |= (mstatus & MSTATUS_MPV) ? HSTATUS_SPV : 0;
+      hstatus &= ~HSTATUS_STL;
+      hstatus |= (mstatus & MSTATUS_MTL) ? HSTATUS_STL : 0;
+      write_csr(0xa00, hstatus);
+
+      mstatus &= ~MSTATUS_MPV;
+      mstatus &= ~MSTATUS_MTL;
+    }
+  }
+
   write_csr(sbadaddr, badaddr);
   write_csr(sepc, epc);
   write_csr(scause, read_csr(mcause));

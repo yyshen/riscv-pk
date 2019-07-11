@@ -56,6 +56,10 @@ static void delegate_traps()
     (1U << CAUSE_STORE_PAGE_FAULT) |
     (1U << CAUSE_USER_ECALL);
 
+  if (supports_extension('H')) {
+    exceptions |= (1 << CAUSE_HYPERVISOR_ECALL);
+  }
+
   write_csr(mideleg, interrupts);
   write_csr(medeleg, exceptions);
   assert(read_csr(mideleg) == interrupts);

@@ -27,6 +27,17 @@
 #define MSTATUS_SXL         0x0000000C00000000
 #define MSTATUS64_SD        0x8000000000000000
 
+/* hypervisr extension bits in mstatus  */
+#define MSTATUS_MTL 0x4000000000ULL
+#define MSTATUS_MPV 0x8000000000ULL
+
+/* hstatus */
+#define HSTATUS_SP2P  0x100
+#define HSTATUS_SP2V  0x200
+#define HSTATUS_SPV   0x80
+#define HSTATUS_STL   0x40
+
+
 #define SSTATUS_UIE         0x00000001
 #define SSTATUS_SIE         0x00000002
 #define SSTATUS_UPIE        0x00000010
