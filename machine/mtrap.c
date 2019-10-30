@@ -180,7 +180,7 @@ void redirect_trap(uintptr_t epc, uintptr_t mstatus, uintptr_t badaddr)
 {
   /* redirect to HS mode, based on OpenSBI */
   if (supports_extension('H')) {
-    uintptr_t hstatus = read_csr(0xa00);
+    uintptr_t hstatus = read_csr(0x600);
     /* V = 1 */
     if (mstatus & MSTATUS_MPV) {
       hstatus &= ~HSTATUS_SP2P;
@@ -191,7 +191,7 @@ void redirect_trap(uintptr_t epc, uintptr_t mstatus, uintptr_t badaddr)
       hstatus |= (mstatus & MSTATUS_MPV) ? HSTATUS_SPV : 0;
       hstatus &= ~HSTATUS_STL;
       hstatus |= (mstatus & MSTATUS_MTL) ? HSTATUS_STL : 0;
-      write_csr(0xa00, hstatus);
+      write_csr(0x600, hstatus);
 
       mstatus &= ~MSTATUS_MPV;
       mstatus &= ~MSTATUS_MTL;
