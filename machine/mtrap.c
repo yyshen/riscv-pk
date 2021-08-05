@@ -240,6 +240,10 @@ void trap_from_machine_mode(uintptr_t* regs, uintptr_t dummy, uintptr_t mepc)
     case CAUSE_FETCH_ACCESS:
     case CAUSE_LOAD_ACCESS:
     case CAUSE_STORE_ACCESS:
+    case CAUSE_INSTRUCTION_GUEST_PAGE_FAULT:
+    case CAUSE_LOAD_GUEST_PAGE_FAULT:
+    case CAUSE_VIRTUAL_INSTRUCTION:
+    case CAUSE_STORE_GUEST_PAGE_FAULT:
       return machine_page_fault(regs, dummy, mepc);
     default:
       bad_trap(regs, dummy, mepc);

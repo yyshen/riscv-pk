@@ -57,7 +57,12 @@ static void delegate_traps()
     (1U << CAUSE_USER_ECALL);
 
   if (supports_extension('H')) {
-    exceptions |= (1 << CAUSE_HYPERVISOR_ECALL);
+    exceptions |= (1 << CAUSE_HYPERVISOR_ECALL) |
+                  (1 << CAUSE_INSTRUCTION_GUEST_PAGE_FAULT) |
+                  (1 << CAUSE_LOAD_GUEST_PAGE_FAULT) |
+                  (1 << CAUSE_VIRTUAL_INSTRUCTION) |
+                  (1 << CAUSE_STORE_GUEST_PAGE_FAULT);
+    interrupts |= MIP_HSIP | MIP_HTIP | MIP_HEIP;
   }
 
   write_csr(mideleg, interrupts);

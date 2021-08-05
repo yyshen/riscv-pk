@@ -29,6 +29,15 @@ trap_table:
   .word __trap_from_machine_mode
   .word bad_trap
   .word bad_trap
+  .word __trap_from_machine_mode
+  .word __trap_from_machine_mode
+  .word __trap_from_machine_mode
+  .word __trap_from_machine_mode
+  .word __trap_from_machine_mode
+  .word __trap_from_machine_mode
+  .word __trap_from_machine_mode
+  .word __trap_from_machine_mode
+  .word __trap_from_machine_mode
 
   .option norvc
   .section .text.init,"ax",@progbits
